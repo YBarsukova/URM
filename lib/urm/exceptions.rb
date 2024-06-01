@@ -5,4 +5,3 @@ module Urm
   class InvalidRegisterIndex < StandardError; end
   class InvalidLabel < StandardError; end
 end
-
