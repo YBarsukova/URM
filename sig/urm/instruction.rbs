@@ -6,6 +6,12 @@ module Urm
 
     def self.parse: -> Instruction
 
+    def self.parse_set: -> Instruction
+    def self.parse_inc: -> Instruction
+    def self.parse_dec: -> Instruction
+    def self.parse_if: -> Instruction
+    def self.parse_stop: -> Instruction
+
     def self.set: (Integer, Integer) -> Instruction
     def self.stop: () -> Instruction
 
