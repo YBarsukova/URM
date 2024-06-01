@@ -1,4 +1,5 @@
-# lib/urm/instruction.rb
+# frozen_string_literal: true
+
 require "urm/exceptions"
 
 module Urm
@@ -66,13 +67,13 @@ module Urm
     def self.parse(instruction_str)
       case instruction_str
       when /^x(\d+) = (-?\d+)$/
-        set($1.to_i, $2.to_i)
+        set(::Regexp.last_match(1).to_i, ::Regexp.last_match(2).to_i)
       when /^x(\d+) = x\1 \+ 1$/
-        inc($1.to_i)
+        inc(::Regexp.last_match(1).to_i)
       when /^x(\d+) = x\1 - 1$/
-        dec($1.to_i)
+        dec(::Regexp.last_match(1).to_i)
       when /^if x(\d+) == 0 goto (\d+) else goto (\d+)$/
-        self.if($1.to_i, $2.to_i, $3.to_i)
+        self.if(::Regexp.last_match(1).to_i, ::Regexp.last_match(2).to_i, ::Regexp.last_match(3).to_i)
       when /^stop$/
         stop
       else
