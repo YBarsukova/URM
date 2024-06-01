@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "urm/version"
-require_relative 'urm/instruction'
+require_relative "urm/instruction"
 
 module Urm
   class Error < StandardError; end

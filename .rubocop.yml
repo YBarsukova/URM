@@ -6,3 +6,14 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+Metrics/LineLength:
+  Max: 120
+Metrics/MethodLength:
+  Max: 20
+
+Lint/ScriptPermission:
+  Enabled: False
+
+Layout/EndOfLine:
+  Enabled: False
