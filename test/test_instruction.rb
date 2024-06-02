@@ -75,4 +75,20 @@ class TestInstruction < Minitest::Test
     inst = Urm::Instruction.stop
     assert_equal :stop, inst.type
   end
+
+  def test_copy_instruction
+    inst = Urm::Instruction.copy(2, 3)
+    assert_equal :copy, inst.type
+    assert_equal 2, inst.register
+    assert_equal 3, inst.value
+  end
+
+  def test_copy_instruction_invalid_register
+    assert_raises(Urm::InvalidRegisterIndex) do
+      Urm::Instruction.copy(0, 3)
+    end
+    assert_raises(Urm::InvalidRegisterIndex) do
+      Urm::Instruction.copy(2, 0)
+    end
+  end
 end
