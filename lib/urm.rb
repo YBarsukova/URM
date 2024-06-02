@@ -15,32 +15,20 @@ require "urm/machine"
 module Urm
   class Error < StandardError; end
 
-  # Создание инструкций
-  inst1 = Urm::Instruction.set(2, 3)
-  inst2 = Urm::Instruction.inc(2)
-  inst3 = Urm::Instruction.dec(3)
-  inst4 = Urm::Instruction.if(2, 3, 4)
-  inst5 = Urm::Instruction.stop
-
-  # Преобразование инструкций в строки
-  puts inst1  # => "x2 = 3"
-  puts inst2  # => "x2 = x2 + 1"
-  puts inst3  # => "x3 = x3 - 1"
-  puts inst4  # => "if x2 == 0 goto 3 else goto 4"
-  puts inst5  # => "stop"
-
-  # Создание машины с 2 входными параметрами
   machine = Urm::Machine.new(2)
-  machine.add(Urm::Instruction.set(3, 15))      # x3 = 15
-  machine.add(Urm::Instruction.inc(3))          # x3 = x3 + 1
-  machine.add(Urm::Instruction.dec(3))     # x3 = x3 - 1
-  machine.add(Urm::Instruction.if(3, 4, 5))     # if x3 = 0 goto 4 else goto 5
-  machine.add(Urm::Instruction.stop)            # stop
 
-  # Печатаем текущие состояния регистров и инструкции
-  puts "Registers: #{machine.registers.inspect}"
-  puts "Instructions: "
-  machine.instructions.each_with_index do |instr, index|
-    puts "#{index + 1}: #{instr}"
+  # Добавляем инструкции
+  machine.add(Urm::Instruction.set(1, 5))              # x1 = 5
+  machine.add(Urm::Instruction.if(2, 6, 3))            # if x2 == 0 goto 6 else 3
+  machine.add(Urm::Instruction.dec(1))                 # x1 = x1 - 1
+  machine.add(Urm::Instruction.dec(2))                 # x2 = x2 - 1
+  machine.add(Urm::Instruction.if(2, 6, 3))            # if x2 == 0 goto 6 else 3
+  machine.add(Urm::Instruction.stop)                   # stop
+
+  (1..100).each do |i|
+    expected_output = [5 - i, 0].max
+    machine.run(i)
+    output = machine.registers[1]
+    puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
   end
 end
