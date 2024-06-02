@@ -1,0 +1,4 @@
+class MachineTester
+  def self.assert: -> bool
+  def self.assert_range: -> bool
+end
