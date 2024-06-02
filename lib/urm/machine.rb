@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "instruction"
+require "urm/instruction"
 
 module Urm
   class InvalidLabelError < StandardError; end
