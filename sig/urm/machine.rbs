@@ -21,6 +21,8 @@ module Urm
     def execute_if: -> void
     def execute_copy: -> void
 
+    def stop_exists?: -> bool
+
     def validate_instructions: -> void
     def collect_labels: -> Array[Integer]
     def validate_labels: -> void
