@@ -15,45 +15,57 @@ require "urm/machine"
 module Urm
   class Error < StandardError; end
 
+  # Машина для умножения
   machine = Urm::Machine.new(2)
 
-  # Добавляем инструкции
-  machine.add(Urm::Instruction.if(3, 9, 2))
-  machine.add(Urm::Instruction.dec(3))
-  machine.add(Urm::Instruction.copy(4, 2))
-  machine.add(Urm::Instruction.if(4, 8, 5))
-  machine.add(Urm::Instruction.inc(1))
-  machine.add(Urm::Instruction.dec(4))
-  machine.add(Urm::Instruction.if(4, 8, 5))
-  machine.add(Urm::Instruction.if(3, 9, 2))
-  machine.add(Urm::Instruction.stop)
+  multiplication_instructions = [
+    "if x3 == 0 goto 9 else goto 2",  # if x3 == 0 goto 9 else 2
+    "x3 = x3 - 1",                    # x3 = x3 - 1
+    "x4 = x2",                        # x4 = x2
+    "if x4 == 0 goto 8 else goto 5",  # if x4 == 0 goto 8 else 5
+    "x1 = x1 + 1",                    # x1 = x1 + 1
+    "x4 = x4 - 1",                    # x4 = x4 - 1
+    "if x4 == 0 goto 8 else goto 5",  # if x4 == 0 goto 8 else 5
+    "if x3 == 0 goto 9 else goto 2",  # if x3 == 0 goto 9 else 2
+    "stop"                            # stop
+  ]
+
+  # Добавляем массив строк с парсингом
+  machine.add_all(multiplication_instructions)
 
   (0..100).each do |i|
     (0..100).each do |j|
       expected_output = i * j
       output = machine.run(i, j)
-      puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
+      puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
     end
   end
 
+  # Машина для деления
   machine = Urm::Machine.new(2)
 
-  machine.add(Urm::Instruction.if(2, 10, 2))
-  machine.add(Urm::Instruction.copy(4, 3))
-  machine.add(Urm::Instruction.dec(2))
-  machine.add(Urm::Instruction.dec(4))
-  machine.add(Urm::Instruction.if(2, 6, 7))
-  machine.add(Urm::Instruction.if(4, 8, 10))
-  machine.add(Urm::Instruction.if(4, 8, 3))
-  machine.add(Urm::Instruction.inc(1))
-  machine.add(Urm::Instruction.if(2, 10, 2))
-  # machine.add(Urm::Instruction.stop)
+  division_instructions = [
+    Urm::Instruction.if(2, 10, 2),     # if x2 == 0 goto 10 else 2
+    Urm::Instruction.copy(4, 3),       # x4 = x3
+    Urm::Instruction.dec(2),           # x2 = x2 - 1
+    Urm::Instruction.dec(4),           # x4 = x4 - 1
+    Urm::Instruction.if(2, 6, 7),      # if x2 == 0 goto 6 else 7
+    Urm::Instruction.if(4, 8, 10),     # if x4 == 0 goto 8 else 10
+    Urm::Instruction.if(4, 8, 3),      # if x4 == 0 goto 8 else 3
+    Urm::Instruction.inc(1),           # x1 = x1 + 1
+    Urm::Instruction.if(2, 10, 2),     # if x2 == 0 goto 10 else 2
+    Urm::Instruction.stop              # stop
+  ]
+
+  # Добавляем массив инструкций
+  machine.add_all(division_instructions)
 
   (1..100).each do |i|
     (1..100).each do |j|
       expected_output = i / j
       output = machine.run(i, j)
-      puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
+      puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
     end
   end
 end
+

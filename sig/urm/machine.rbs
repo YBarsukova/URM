@@ -5,8 +5,9 @@ module Urm
     attr_reader registers: Array[Integer]
 
     def add: -> void
-    def run: -> Integer
+    def add_all: -> void
 
+    def run: -> Integer
     def run_and_print: -> void
 
     def validate_instructions: -> void

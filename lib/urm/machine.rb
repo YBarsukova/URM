@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require "urm/instruction"
+require "urm/exceptions"
 
 module Urm
-  class InvalidLabelError < StandardError; end
-  class MultipleStopsError < StandardError; end
 
   # The Machine class represents an Unlimited Register Machine (URM)
   # capable of executing a series of instructions on a set of registers.
@@ -22,9 +21,24 @@ module Urm
 
     # Adds an instruction to the machine
     #
-    # @param instruction [Urm::Instruction] The instruction to add
+    # @param instruction [Urm::Instruction, String] The instruction to add
     def add(instruction)
-      @instructions << instruction
+      @instructions <<
+        case instruction
+        when String
+          Urm::Instruction.parse(instruction)
+        else
+          instruction
+        end
+    end
+
+    # Adds an array of instructions to the machine
+    #
+    # @param instructions [Array<Urm::Instruction, String>] The array of instructions to add
+    def add_all(instructions)
+      instructions.each do |instruction|
+        add(instruction)
+      end
     end
 
     # Validates the instructions to ensure there are no references to non-existent labels
@@ -42,7 +56,7 @@ module Urm
 
       if stop_count > 1
         raise MultipleStopsError, "There are multiple stop instructions"
-      elsif stop_count == 0
+      elsif stop_count.zero?
         @instructions << Urm::Instruction.stop
       end
     end
@@ -99,3 +113,4 @@ module Urm
     end
   end
 end
+
