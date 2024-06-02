@@ -31,8 +31,7 @@ module Urm
   (0..100).each do |i|
     (0..100).each do |j|
       expected_output = i * j
-      machine.run(i,j)
-      output = machine.registers[1]
+      output = machine.run(i, j)
       puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
     end
   end
@@ -48,13 +47,12 @@ module Urm
   machine.add(Urm::Instruction.if(4, 8, 3))
   machine.add(Urm::Instruction.inc(1))
   machine.add(Urm::Instruction.if(2, 10, 2))
-  #machine.add(Urm::Instruction.stop)
+  # machine.add(Urm::Instruction.stop)
 
   (1..100).each do |i|
     (1..100).each do |j|
       expected_output = i / j
-      machine.run(i , j)
-      output = machine.registers[1]
+      output = machine.run(i, j)
       puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "urm/instruction"
+require "instruction"
 
 module Urm
   class InvalidLabelError < StandardError; end
@@ -28,8 +28,7 @@ module Urm
     end
 
     # Validates the instructions to ensure there are no references to non-existent labels
-    # and there is exactly one stop instruction. If there is no stop instruction at the end,
-    # it will be automatically added
+    # and there is exactly one stop instruction.
     def validate_instructions
       labels = @instructions.select { |instr| instr.type == :if }.flat_map { |instr| [instr.label_true, instr.label_false] }
       stop_count = @instructions.count { |instr| instr.type == :stop }
@@ -37,20 +36,21 @@ module Urm
       max_valid_label = @instructions.size
       labels.each do |label|
         if label <= 0 || (label > max_valid_label && label != max_valid_label + 1)
-          raise InvalidLabel, "Instruction references a non-existent label: #{label}"
+          raise InvalidLabelError, "Instruction references a non-existent label: #{label}"
         end
       end
 
       if stop_count > 1
         raise MultipleStopsError, "There are multiple stop instructions"
-      elsif stop_count.zero?
+      elsif stop_count == 0
         @instructions << Urm::Instruction.stop
       end
     end
 
-    # Runs the machine with the given input values
+    # Runs the machine with the given input values and returns the value of x1
     #
     # @param inputs [Array<Integer>] The input values
+    # @return [Integer] The value of x1 after execution
     def run(*inputs)
       validate_instructions
 
@@ -82,12 +82,20 @@ module Urm
         when :copy
           @registers[instruction.register] = @registers[instruction.value]
         when :stop
-          puts @registers[1]
-          return
+          return @registers[1]
         end
         pc += 1 if instruction.type != :if # Only increment pc if it's not an if instruction
       end
+
+      @registers[1]
+    end
+
+    # Runs the machine with the given input values and prints the value of x1
+    #
+    # @param inputs [Array<Integer>] The input values
+    def run_and_print(*inputs)
+      result = run(*inputs)
+      puts result
     end
   end
 end
-
