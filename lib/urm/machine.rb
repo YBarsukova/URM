@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
-require "urm/instruction"
+require "instruction"
 
 module Urm
+
+  # The Machine class represents an Unlimited Register Machine (URM)
+  # capable of executing a series of instructions on a set of registers.
+  # Machine is initialized with a specified number of input parameters.
   class Machine
     attr_reader :registers, :instructions
 
