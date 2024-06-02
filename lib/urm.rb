@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "urm/version"
-require_relative "urm/instruction"
+require "urm/version"
+require "urm/instruction"
 
 # The Urm module provides functionality to create and manipulate instructions
 # for the Unbounded Register Machine (URM). The URM is a theoretical model used

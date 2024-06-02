@@ -1,9 +1,13 @@
 module Urm
   class Instruction
+    
+    def self.set: (Integer, Integer) -> Instruction
+    def self.inc: (Integer) -> Instruction
     def self.dec: (Integer) -> Instruction
     def self.if: (Integer, Integer, Integer) -> Instruction
-    def self.inc: (Integer) -> Instruction
-
+    def self.stop: () -> Instruction
+    def self.copy: (Integer, Integer) -> Instruction
+    
     def self.parse: -> Instruction
 
     def self.parse_set: -> Instruction
@@ -11,9 +15,7 @@ module Urm
     def self.parse_dec: -> Instruction
     def self.parse_if: -> Instruction
     def self.parse_stop: -> Instruction
-
-    def self.set: (Integer, Integer) -> Instruction
-    def self.stop: () -> Instruction
+    def self.parse_copy: -> Instruction
 
     attr_reader label_false: Integer?
     attr_reader label_true: Integer?
