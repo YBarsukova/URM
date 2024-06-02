@@ -18,17 +18,44 @@ module Urm
   machine = Urm::Machine.new(2)
 
   # Добавляем инструкции
-  machine.add(Urm::Instruction.set(1, 5))              # x1 = 5
-  machine.add(Urm::Instruction.if(2, 6, 3))            # if x2 == 0 goto 6 else 3
-  machine.add(Urm::Instruction.dec(1))                 # x1 = x1 - 1
-  machine.add(Urm::Instruction.dec(2))                 # x2 = x2 - 1
-  machine.add(Urm::Instruction.if(2, 6, 3))            # if x2 == 0 goto 6 else 3
-  machine.add(Urm::Instruction.stop)                   # stop
+  machine.add(Urm::Instruction.if(3, 9, 2))
+  machine.add(Urm::Instruction.dec(3))
+  machine.add(Urm::Instruction.copy(4, 2))
+  machine.add(Urm::Instruction.if(4, 8, 5))
+  machine.add(Urm::Instruction.inc(1))
+  machine.add(Urm::Instruction.dec(4))
+  machine.add(Urm::Instruction.if(4, 8, 5))
+  machine.add(Urm::Instruction.if(3, 9, 2))
+  machine.add(Urm::Instruction.stop)
+
+  (0..100).each do |i|
+    (0..100).each do |j|
+      expected_output = i * j
+      machine.run(i,j)
+      output = machine.registers[1]
+      puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
+    end
+  end
+
+  machine = Urm::Machine.new(2)
+
+  machine.add(Urm::Instruction.if(2, 10, 2))
+  machine.add(Urm::Instruction.copy(4, 3))
+  machine.add(Urm::Instruction.dec(2))
+  machine.add(Urm::Instruction.dec(4))
+  machine.add(Urm::Instruction.if(2, 6, 7))
+  machine.add(Urm::Instruction.if(4, 8, 10))
+  machine.add(Urm::Instruction.if(4, 8, 3))
+  machine.add(Urm::Instruction.inc(1))
+  machine.add(Urm::Instruction.if(2, 10, 2))
+  #machine.add(Urm::Instruction.stop)
 
   (1..100).each do |i|
-    expected_output = [5 - i, 0].max
-    machine.run(i)
-    output = machine.registers[1]
-    puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
+    (1..100).each do |j|
+      expected_output = i / j
+      machine.run(i , j)
+      output = machine.registers[1]
+      puts "Test failed for input #{i}: expected #{expected_output}, got #{output}" if output != expected_output
+    end
   end
 end

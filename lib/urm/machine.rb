@@ -43,7 +43,7 @@ module Urm
 
       if stop_count > 1
         raise MultipleStopsError, "There are multiple stop instructions"
-      elsif stop_count == 0
+      elsif stop_count.zero?
         @instructions << Urm::Instruction.stop
       end
     end

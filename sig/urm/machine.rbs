@@ -7,5 +7,7 @@ module Urm
     def add: -> void
     def run: -> void
 
+    def validate_instructions: -> void
+
   end
 end
