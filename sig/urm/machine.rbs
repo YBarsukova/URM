@@ -1,0 +1,10 @@
+module Urm
+  class Machine
+
+    attr_reader instructions: Array[Urm::Instruction]
+    attr_reader registers: Array[Integer]
+
+    def add: -> void
+
+  end
+end
