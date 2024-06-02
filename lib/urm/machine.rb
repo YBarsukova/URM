@@ -4,7 +4,6 @@ require "urm/instruction"
 require "urm/exceptions"
 
 module Urm
-
   # The Machine class represents an Unlimited Register Machine (URM)
   # capable of executing a series of instructions on a set of registers.
   # Machine is initialized with a specified number of input parameters.
@@ -23,13 +22,14 @@ module Urm
     #
     # @param instruction [Urm::Instruction, String] The instruction to add
     def add(instruction)
-      @instructions <<
+      instruction =
         case instruction
         when String
           Urm::Instruction.parse(instruction)
         else
           instruction
         end
+      @instructions[instruction.label - 1] = instruction
     end
 
     # Adds an array of instructions to the machine
@@ -44,10 +44,10 @@ module Urm
     # Validates the instructions to ensure there are no references to non-existent labels
     # and there is exactly one stop instruction.
     def validate_instructions
-      labels = @instructions.select { |instr| instr.type == :if }.flat_map { |instr| [instr.label_true, instr.label_false] }
-      stop_count = @instructions.count { |instr| instr.type == :stop }
+      labels = @instructions.compact.select { |instr| instr.type == :if }.flat_map { |instr| [instr.label_true, instr.label_false] }
+      stop_count = @instructions.compact.count { |instr| instr.type == :stop }
 
-      max_valid_label = @instructions.size
+      max_valid_label = @instructions.compact.size
       labels.each do |label|
         if label <= 0 || (label > max_valid_label && label != max_valid_label + 1)
           raise InvalidLabelError, "Instruction references a non-existent label: #{label}"
@@ -57,7 +57,7 @@ module Urm
       if stop_count > 1
         raise MultipleStopsError, "There are multiple stop instructions"
       elsif stop_count.zero?
-        @instructions << Urm::Instruction.stop
+        @instructions[max_valid_label] = Urm::Instruction.stop(max_valid_label + 1)
       end
     end
 
@@ -79,6 +79,11 @@ module Urm
 
       while pc < @instructions.length
         instruction = @instructions[pc]
+
+        if instruction.nil?
+          pc += 1
+          next
+        end
 
         case instruction.type
         when :set
@@ -113,4 +118,3 @@ module Urm
     end
   end
 end
-

@@ -17,6 +17,7 @@ module Urm
     def self.parse_stop: -> Instruction
     def self.parse_copy: -> Instruction
 
+    attr_reader label: Integer
     attr_reader label_false: Integer?
     attr_reader label_true: Integer?
     attr_reader register: Integer?

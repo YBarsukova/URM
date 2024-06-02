@@ -10,7 +10,9 @@ Style/StringLiteralsInInterpolation:
 Metrics/LineLength:
   Max: 120
 Metrics/MethodLength:
-  Max: 20
+  Max: 30
+Metrics/ParameterLists:
+  Max: 6
 
 Lint/ScriptPermission:
   Enabled: False

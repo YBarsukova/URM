@@ -17,64 +17,43 @@ module Urm
   class Error < StandardError; end
 
   # Машина для умножения
-  machine = Urm::Machine.new(2)
+  multiplication_machine = Urm::Machine.new(2)
 
   multiplication_instructions = [
-    "if x3 == 0 goto 9 else goto 2",  # if x3 == 0 goto 9 else 2
-    "x3 = x3 - 1",                    # x3 = x3 - 1
-    "x4 = x2",                        # x4 = x2
-    "if x4 == 0 goto 8 else goto 5",  # if x4 == 0 goto 8 else 5
-    "x1 = x1 + 1",                    # x1 = x1 + 1
-    "x4 = x4 - 1",                    # x4 = x4 - 1
-    "if x4 == 0 goto 8 else goto 5",  # if x4 == 0 goto 8 else 5
-    "if x3 == 0 goto 9 else goto 2",  # if x3 == 0 goto 9 else 2
-    "stop"                            # stop
+    "1. if x3 == 0 goto 9 else goto 2",  # if x3 == 0 goto 9 else 2
+    "2. x3 = x3 - 1",                    # x3 = x3 - 1
+    "3. x4 = x2",                        # x4 = x2
+    "4. if x4 == 0 goto 8 else goto 5",  # if x4 == 0 goto 8 else 5
+    "5. x1 = x1 + 1",                    # x1 = x1 + 1
+    "6. x4 = x4 - 1",                    # x4 = x4 - 1
+    "7. if x4 == 0 goto 8 else goto 5",  # if x4 == 0 goto 8 else 5
+    "8. if x3 == 0 goto 9 else goto 2",  # if x3 == 0 goto 9 else 2
+    "9. stop"                            # stop
   ]
 
   # Добавляем массив строк с парсингом
-  machine.add_all(multiplication_instructions)
+  multiplication_machine.add_all(multiplication_instructions)
 
-  MachineTester.assert_range(machine, 0, 100, ->(x,y){x*y})
-
-  # (0..100).each do |i|
-  #   (0..100).each do |j|
-  #     expected_output = i * j
-  #     output = machine.run(i, j)
-  #     puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
-  #   end
-  # end
+  MachineTester.assert_range(multiplication_machine, 0, 100, ->(x, y) { x * y })
 
   # Машина для деления
-  machine = Urm::Machine.new(2)
+  division_machine = Urm::Machine.new(2)
 
   division_instructions = [
-    Urm::Instruction.if(2, 10, 2),     # if x2 == 0 goto 10 else 2
-    Urm::Instruction.copy(4, 3),       # x4 = x3
-    Urm::Instruction.dec(2),           # x2 = x2 - 1
-    Urm::Instruction.dec(4),           # x4 = x4 - 1
-    Urm::Instruction.if(2, 6, 7),      # if x2 == 0 goto 6 else 7
-    Urm::Instruction.if(4, 8, 10),     # if x4 == 0 goto 8 else 10
-    Urm::Instruction.if(4, 8, 3),      # if x4 == 0 goto 8 else 3
-    Urm::Instruction.inc(1),           # x1 = x1 + 1
-    Urm::Instruction.if(2, 10, 2),     # if x2 == 0 goto 10 else 2
-    Urm::Instruction.stop              # stop
+    Urm::Instruction.if(1, 2, 10, 2),     # 1. if x2 == 0 goto 10 else 2
+    Urm::Instruction.copy(2, 4, 3),       # 2. x4 = x3
+    Urm::Instruction.dec(3, 2),           # 3. x2 = x2 - 1
+    Urm::Instruction.dec(4, 4),           # 4. x4 = x4 - 1
+    Urm::Instruction.if(5, 2, 6, 7),      # 5. if x2 == 0 goto 6 else 7
+    Urm::Instruction.if(6, 4, 8, 10),     # 6. if x4 == 0 goto 8 else 10
+    Urm::Instruction.if(7, 4, 8, 3),      # 7. if x4 == 0 goto 8 else 3
+    Urm::Instruction.inc(8, 1),           # 8. x1 = x1 + 1
+    Urm::Instruction.if(9, 2, 10, 2),     # 9. if x2 == 0 goto 10 else 2
+    Urm::Instruction.stop(10)             # 10. stop
   ]
 
-
   # Добавляем массив инструкций
-  machine.add_all(division_instructions)
+  division_machine.add_all(division_instructions)
 
-  MachineTester.assert_range(machine, 1, 100, ->(x,y){x/y})
-
-
-  # (1..100).each do |i|
-  #   (1..100).each do |j|
-  #     expected_output = i / j
-  #     output = machine.run(i, j)
-  #     puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
-  #   end
-  # end
+  MachineTester.assert_range(division_machine, 1, 100, ->(x, y) { x / y })
 end
-
-
-
