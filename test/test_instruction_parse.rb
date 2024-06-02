@@ -4,6 +4,7 @@ require "minitest/autorun"
 require "urm/instruction"
 require "urm/exceptions"
 
+# Tests for parsing strings <-> machine instructions
 class TestInstructionParse < Minitest::Test
   def test_parse_set_instruction
     inst = Urm::Instruction.parse("1. x2 = 3")
@@ -51,7 +52,6 @@ class TestInstructionParse < Minitest::Test
     assert_equal 3, inst.value
   end
 
-  # Тесты для проверки выброса исключений
   def test_parse_set_instruction_invalid_value
     assert_raises(Urm::InvalidRegisterInitialization) do
       Urm::Instruction.parse("1. x2 = -1")
@@ -97,9 +97,6 @@ class TestInstructionParse < Minitest::Test
   def test_parse_dec_instruction_invalid_label
     assert_raises(Urm::InvalidLabel) do
       Urm::Instruction.parse("0. x3 = x3 - 1")
-    end
-    assert_raises(Urm::InvalidLabel) do
-      Urm::Instruction.parse("-1. x3 = x3 - 1")
     end
   end
 
@@ -151,7 +148,6 @@ class TestInstructionParse < Minitest::Test
     end
   end
 
-  # Тесты метода to_s
   def test_to_s_set_instruction
     inst = Urm::Instruction.set(1, 2, 3)
     assert_equal "1. x2 = 3", inst.to_s

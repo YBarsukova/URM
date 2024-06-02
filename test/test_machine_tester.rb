@@ -6,6 +6,7 @@ require "urm/instruction"
 require "urm/exceptions"
 require "urm/machine_tester"
 
+# Tests for MachineTester class that makes checking URMs easier and faster
 class TestMachineOperations < Minitest::Test
   def test_multiplication
     multiplication_instructions = [
@@ -23,7 +24,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(multiplication_instructions)
 
-    MachineTester.assert_range(machine, 0, 10, lambda { |x2, x3| x2 * x3 })
+    MachineTester.assert_range(machine, 0, 10, ->(x2, x3) { x2 * x3 })
   end
 
   def test_division
@@ -42,7 +43,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(division_instructions)
 
-    MachineTester.assert_range(machine, 1, 10, lambda { |x2, x3| x2 / x3 })
+    MachineTester.assert_range(machine, 1, 10, ->(x2, x3) { x2 / x3 })
   end
 
   def test_subtraction
@@ -59,7 +60,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(subtraction_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, lambda { |x2, x3| [x2 - x3, 0].max })
+    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2 - x3, 0].max })
   end
 
   def test_addition
@@ -74,7 +75,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(addition_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, lambda { |x2, x3| x2 + x3 })
+    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { x2 + x3 })
   end
 
   def test_minimum
@@ -92,7 +93,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(min_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, lambda { |x2, x3| [x2, x3].min })
+    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2, x3].min })
   end
 
   def test_maximum
@@ -110,7 +111,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(max_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, lambda { |x2, x3| [x2, x3].max })
+    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2, x3].max })
   end
 
   def test_absolute_difference
@@ -129,7 +130,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(abs_diff_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, lambda { |x2, x3| (x2 - x3).abs })
+    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { (x2 - x3).abs })
   end
 
 end
