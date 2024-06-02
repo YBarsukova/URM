@@ -48,8 +48,8 @@ class MachineTester
   # Проверяет, что на всех наборах входных в диапазоне [a,b] machine.run(эти наборы) = lambda(эти наборы)
   #
   # @param machine [Urm::Machine] The machine to test
-  # @param a [Integer] The start of the range
-  # @param b [Integer] The end of the range
+  # @param lower_bound [Integer] The start of the range
+  # @param upper_bound [Integer] The end of the range
   # @param func [Proc] The lambda function to test against
   # @return [Boolean] true if all outputs match the lambda's outputs
   def self.assert_range(machine, lower_bound, upper_bound, func)

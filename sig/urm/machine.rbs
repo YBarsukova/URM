@@ -10,7 +10,21 @@ module Urm
     def run: -> Integer
     def run_and_print: -> void
 
+    private
+
+    def execute_instruction: -> Integer?
+    def execute_instructions: -> Integer
+    def initialize_registers: -> void
+    def execute_set: -> void
+    def execute_inc: -> void
+    def execute_dec: -> void
+    def execute_if: -> void
+    def execute_copy: -> void
+
     def validate_instructions: -> void
+    def collect_labels: -> Array[Integer]
+    def validate_labels: -> void
+    def validate_stop_instructions: -> void
 
   end
 end
