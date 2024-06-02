@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require "minitest/autorun"
-require "urm/instruction"
-require "urm/exceptions"
+require "instruction"
+require "exceptions"
 
 class TestInstructionParse < Minitest::Test
   def test_parse_set_instruction
@@ -36,6 +36,13 @@ class TestInstructionParse < Minitest::Test
     inst = Urm::Instruction.parse("stop")
     assert_equal :stop, inst.type
     assert_nil inst.value
+  end
+
+  def test_parse_copy_instruction
+    inst = Urm::Instruction.parse("x2 = x3")
+    assert_equal :copy, inst.type
+    assert_equal 2, inst.register
+    assert_equal 3, inst.value
   end
 
   # Тесты для проверки выброса исключений
@@ -78,6 +85,15 @@ class TestInstructionParse < Minitest::Test
     end
   end
 
+  def test_parse_copy_instruction_invalid_register
+    assert_raises(Urm::InvalidRegisterIndex) do
+      Urm::Instruction.parse("x0 = x3")
+    end
+    assert_raises(Urm::InvalidRegisterIndex) do
+      Urm::Instruction.parse("x2 = x0")
+    end
+  end
+
   # Тесты метода to_s
   def test_to_s_set_instruction
     inst = Urm::Instruction.set(2, 3)
@@ -102,5 +118,10 @@ class TestInstructionParse < Minitest::Test
   def test_to_s_stop_instruction
     inst = Urm::Instruction.stop
     assert_equal "stop", inst.to_s
+  end
+
+  def test_to_s_copy_instruction
+    inst = Urm::Instruction.copy(2, 3)
+    assert_equal "x2 = x3", inst.to_s
   end
 end
