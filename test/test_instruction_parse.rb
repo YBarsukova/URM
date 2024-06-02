@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require "minitest/autorun"
-require "instruction"
-require "exceptions"
+require "urm/instruction"
+require "urm/exceptions"
 
 class TestInstructionParse < Minitest::Test
   def test_parse_set_instruction

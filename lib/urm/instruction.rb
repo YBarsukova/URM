@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "exceptions"
+require "urm/exceptions"
 
 module Urm
   # This class represents an instruction for the Unbounded Register Machine (URM).
