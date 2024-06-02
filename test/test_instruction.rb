@@ -4,6 +4,7 @@ require "minitest/autorun"
 require "urm/instruction"
 require "urm/exceptions"
 
+# Tests for URM instructions initializing and exceptions throwing
 class TestInstruction < Minitest::Test
   def test_set_instruction
     inst = Urm::Instruction.set(1, 2, 3)

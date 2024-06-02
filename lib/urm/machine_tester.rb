@@ -3,7 +3,6 @@
 require "urm/machine"
 require "urm/exceptions"
 
-
 # The MachineTester class provides methods for testing the functionality of an
 # Unbounded Register Machine (URM). It includes methods to assert that the machine
 # produces expected outputs for given inputs and to validate the machine's outputs

@@ -44,13 +44,14 @@ module Urm
     # Validates the instructions to ensure there are no references to non-existent labels
     # and there is exactly one stop instruction.
     def validate_instructions
-      labels = @instructions.compact.select { |instr| instr.type == :if }.flat_map { |instr| [instr.label_true, instr.label_false] }
+      labels = @instructions.compact.select { |instr| instr.type == :if }
+                            .flat_map { |instr| [instr.label_true, instr.label_false] }
       stop_count = @instructions.compact.count { |instr| instr.type == :stop }
 
       max_valid_label = @instructions.compact.size
       labels.each do |label|
         if label <= 0 || (label > max_valid_label && label != max_valid_label + 1)
-          raise InvalidLabelError, "Instruction references a non-existent label: #{label}"
+          raise InvalidLabel, "Instruction references a non-existent label: #{label}"
         end
       end
 

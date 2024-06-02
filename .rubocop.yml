@@ -13,6 +13,8 @@ Metrics/MethodLength:
   Max: 30
 Metrics/ParameterLists:
   Max: 6
+Metrics/ClassLength:
+  Max: 150
 
 Lint/ScriptPermission:
   Enabled: False
