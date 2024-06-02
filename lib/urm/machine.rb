@@ -3,6 +3,9 @@
 require "instruction"
 
 module Urm
+  class InvalidLabelError < StandardError; end
+  class MultipleStopsError < StandardError; end
+
   # The Machine class represents an Unlimited Register Machine (URM)
   # capable of executing a series of instructions on a set of registers.
   # Machine is initialized with a specified number of input parameters.
@@ -24,10 +27,33 @@ module Urm
       @instructions << instruction
     end
 
+    # Validates the instructions to ensure there are no references to non-existent labels
+    # and there is exactly one stop instruction. If there is no stop instruction at the end,
+    # it will be automatically added
+    def validate_instructions
+      labels = @instructions.select { |instr| instr.type == :if }.flat_map { |instr| [instr.label_true, instr.label_false] }
+      stop_count = @instructions.count { |instr| instr.type == :stop }
+
+      max_valid_label = @instructions.size
+      labels.each do |label|
+        if label <= 0 || (label > max_valid_label && label != max_valid_label + 1)
+          raise InvalidLabel, "Instruction references a non-existent label: #{label}"
+        end
+      end
+
+      if stop_count > 1
+        raise MultipleStopsError, "There are multiple stop instructions"
+      elsif stop_count == 0
+        @instructions << Urm::Instruction.stop
+      end
+    end
+
     # Runs the machine with the given input values
     #
     # @param inputs [Array<Integer>] The input values
     def run(*inputs)
+      validate_instructions
+
       # Initialize registers with input values
       inputs.each_with_index do |value, index|
         @registers[index + 2] = value
@@ -39,7 +65,6 @@ module Urm
 
       while pc < @instructions.length
         instruction = @instructions[pc]
-        # puts "Executing: #{instruction.to_s}" # Debug output
 
         case instruction.type
         when :set
@@ -65,3 +90,4 @@ module Urm
     end
   end
 end
+
