@@ -44,22 +44,9 @@ module Urm
     # Validates the instructions to ensure there are no references to non-existent labels
     # and there is exactly one stop instruction.
     def validate_instructions
-      labels = @instructions.compact.select { |instr| instr.type == :if }
-                            .flat_map { |instr| [instr.label_true, instr.label_false] }
-      stop_count = @instructions.compact.count { |instr| instr.type == :stop }
-
-      max_valid_label = @instructions.compact.size
-      labels.each do |label|
-        if label <= 0 || (label > max_valid_label && label != max_valid_label + 1)
-          raise InvalidLabel, "Instruction references a non-existent label: #{label}"
-        end
-      end
-
-      if stop_count > 1
-        raise MultipleStopsError, "There are multiple stop instructions"
-      elsif stop_count.zero?
-        @instructions[max_valid_label] = Urm::Instruction.stop(max_valid_label + 1)
-      end
+      labels = collect_labels
+      validate_labels(labels)
+      validate_stop_instructions
     end
 
     # Runs the machine with the given input values and returns the value of x1
@@ -116,6 +103,33 @@ module Urm
     def run_and_print(*inputs)
       result = run(*inputs)
       puts result
+    end
+    class << self
+      private
+
+      def collect_labels
+        @instructions.compact.select { |instr| instr.type == :if }
+                     .flat_map { |instr| [instr.label_true, instr.label_false] }
+      end
+
+      def validate_labels(labels)
+        max_valid_label = @instructions.compact.size
+        labels.each do |label|
+          next if label.positive? && (label <= max_valid_label || label == max_valid_label + 1)
+
+          raise InvalidLabel, "Instruction references a non-existent label: #{label}"
+        end
+      end
+
+      def validate_stop_instructions
+        stop_count = @instructions.compact.count { |instr| instr.type == :stop }
+
+        raise MultipleStopsError, "There are multiple stop instructions" if stop_count > 1
+
+        return unless stop_count.zero?
+
+        @instructions[@instructions.compact.size] = Urm::Instruction.stop(@instructions.compact.size + 1)
+      end
     end
   end
 end
