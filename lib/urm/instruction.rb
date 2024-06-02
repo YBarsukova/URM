@@ -47,6 +47,7 @@ module Urm
       new(:stop)
     end
 
+    #For copy instructions index of source register is stored in value field
     def self.copy(register, source_register)
       raise Urm::InvalidRegisterIndex, "Register index must be positive" if register <= 0 || source_register <= 0
 
