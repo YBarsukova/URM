@@ -3,6 +3,7 @@
 require "urm/version"
 require "urm/instruction"
 require "urm/machine"
+require "urm/machine_tester"
 
 # The Urm module provides functionality to create and manipulate instructions
 # for the Unbounded Register Machine (URM). The URM is a theoretical model used
@@ -33,13 +34,15 @@ module Urm
   # Добавляем массив строк с парсингом
   machine.add_all(multiplication_instructions)
 
-  (0..100).each do |i|
-    (0..100).each do |j|
-      expected_output = i * j
-      output = machine.run(i, j)
-      puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
-    end
-  end
+  MachineTester.assert_range(machine, 0, 100, ->(x,y){x*y})
+
+  # (0..100).each do |i|
+  #   (0..100).each do |j|
+  #     expected_output = i * j
+  #     output = machine.run(i, j)
+  #     puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
+  #   end
+  # end
 
   # Машина для деления
   machine = Urm::Machine.new(2)
@@ -57,15 +60,21 @@ module Urm
     Urm::Instruction.stop              # stop
   ]
 
+
   # Добавляем массив инструкций
   machine.add_all(division_instructions)
 
-  (1..100).each do |i|
-    (1..100).each do |j|
-      expected_output = i / j
-      output = machine.run(i, j)
-      puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
-    end
-  end
+  MachineTester.assert_range(machine, 1, 100, ->(x,y){x/y})
+
+
+  # (1..100).each do |i|
+  #   (1..100).each do |j|
+  #     expected_output = i / j
+  #     output = machine.run(i, j)
+  #     puts "Test failed for input #{i}, #{j}: expected #{expected_output}, got #{output}" if output != expected_output
+  #   end
+  # end
 end
+
+
 
