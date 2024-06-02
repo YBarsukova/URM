@@ -11,9 +11,12 @@ module Urm
     def run_and_print: -> void
 
     def validate_instructions: -> void
-    def self.collect_labels: -> Array[Integer]
-    def self.validate_labels: -> void
-    def self.validate_stop_instructions: -> void
+    def collect_labels: -> Array[Integer]
+    def validate_labels: -> void
+    def validate_stop_instructions: -> void
+
+    private
+
 
   end
 end

@@ -104,32 +104,41 @@ module Urm
       result = run(*inputs)
       puts result
     end
-    class << self
-      private
 
-      def collect_labels
-        @instructions.compact.select { |instr| instr.type == :if }
-                     .flat_map { |instr| [instr.label_true, instr.label_false] }
+    private
+
+    # Collects all labels referenced by if instructions
+    #
+    # @return [Array<Integer>] An array of labels
+    def collect_labels
+      @instructions.compact.select { |instr| instr.type == :if }
+                   .flat_map { |instr| [instr.label_true, instr.label_false] }
+    end
+
+    # Validates that all referenced labels exist
+    #
+    # @param labels [Array<Integer>] An array of labels to validate
+    # @return [void]
+    def validate_labels(labels)
+      max_valid_label = @instructions.compact.size
+      labels.each do |label|
+        next if label.positive? && (label <= max_valid_label || label == max_valid_label + 1)
+
+        raise InvalidLabel, "Instruction references a non-existent label: #{label}"
       end
+    end
 
-      def validate_labels(labels)
-        max_valid_label = @instructions.compact.size
-        labels.each do |label|
-          next if label.positive? && (label <= max_valid_label || label == max_valid_label + 1)
+    # Validates that there is exactly one stop instruction
+    #
+    # @return [void]
+    def validate_stop_instructions
+      stop_count = @instructions.compact.count { |instr| instr.type == :stop }
 
-          raise InvalidLabel, "Instruction references a non-existent label: #{label}"
-        end
-      end
+      raise MultipleStopsError, "There are multiple stop instructions" if stop_count > 1
 
-      def validate_stop_instructions
-        stop_count = @instructions.compact.count { |instr| instr.type == :stop }
+      return unless stop_count.zero?
 
-        raise MultipleStopsError, "There are multiple stop instructions" if stop_count > 1
-
-        return unless stop_count.zero?
-
-        @instructions[@instructions.compact.size] = Urm::Instruction.stop(@instructions.compact.size + 1)
-      end
+      @instructions[@instructions.compact.size] = Urm::Instruction.stop(@instructions.compact.size + 1)
     end
   end
 end
