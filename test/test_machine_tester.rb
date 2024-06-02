@@ -4,7 +4,7 @@ require "minitest/autorun"
 require "urm/machine"
 require "urm/instruction"
 require "urm/exceptions"
-require "machine_tester"
+require "urm/machine_tester"
 
 class TestMachineOperations < Minitest::Test
   def test_multiplication
