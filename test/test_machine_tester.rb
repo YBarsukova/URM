@@ -24,7 +24,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(multiplication_instructions)
 
-    MachineTester.assert_range(machine, 0, 10, ->(x2, x3) { x2 * x3 })
+    assert MachineTester.assert_range(machine, 0, 10, ->(x2, x3) { x2 * x3 })
   end
 
   def test_division
@@ -43,7 +43,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(division_instructions)
 
-    MachineTester.assert_range(machine, 1, 10, ->(x2, x3) { x2 / x3 })
+    assert MachineTester.assert_range(machine, 1, 10, ->(x2, x3) { x2 / x3 })
   end
 
   def test_subtraction
@@ -60,7 +60,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(subtraction_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2 - x3, 0].max })
+    assert MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2 - x3, 0].max })
   end
 
   def test_addition
@@ -69,13 +69,17 @@ class TestMachineOperations < Minitest::Test
       "2. x2 = x2 - 1",
       "3. x1 = x1 + 1",
       "4. if x2 == 0 goto 5 else goto 2",
-      "5. stop"
+      "5. if x3 == 0 goto 9 else goto 6",
+      "6. x3 = x3 - 1",
+      "7. x1 = x1 + 1",
+      "8. if x3 == 0 goto 9 else goto 6",
+      "9. stop"
     ]
 
     machine = Urm::Machine.new(2)
     machine.add_all(addition_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { x2 + x3 })
+    assert MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { x2 + x3 })
   end
 
   def test_minimum
@@ -93,7 +97,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(min_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2, x3].min })
+    assert MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2, x3].min })
   end
 
   def test_maximum
@@ -111,7 +115,7 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(max_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2, x3].max })
+    assert MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { [x2, x3].max })
   end
 
   def test_absolute_difference
@@ -130,6 +134,6 @@ class TestMachineOperations < Minitest::Test
     machine = Urm::Machine.new(2)
     machine.add_all(abs_diff_instructions)
 
-    MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { (x2 - x3).abs })
+    assert MachineTester.assert_range(machine, 0, 100, ->(x2, x3) { (x2 - x3).abs })
   end
 end
