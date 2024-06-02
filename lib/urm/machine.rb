@@ -160,7 +160,7 @@ module Urm
     def validate_labels(labels)
       max_valid_label = @instructions.compact.size
       labels.each do |label|
-        next if label.positive? && (label <= max_valid_label || label == max_valid_label + 1)
+        next if label.positive? && (label <= max_valid_label || (label == max_valid_label + 1 && !stop_exists?))
 
         raise InvalidLabel, "Instruction references a non-existent label: #{label}"
       end
@@ -177,6 +177,10 @@ module Urm
       return unless stop_count.zero?
 
       @instructions[@instructions.compact.size] = Urm::Instruction.stop(@instructions.compact.size + 1)
+    end
+
+    def stop_exists?
+      @instructions.compact.any? { |instr| instr.type == :stop }
     end
   end
 end
