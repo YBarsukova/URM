@@ -14,5 +14,4 @@ require "urm/machine_tester"
 # and stopping the machine. It also provides methods to parse instructions from
 # strings and convert them back to their string representations.
 module Urm
-
 end
