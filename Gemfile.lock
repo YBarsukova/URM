@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    urm (0.1.0)
+    mmcs_urm (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -48,10 +48,10 @@ PLATFORMS
 
 DEPENDENCIES
   minitest (~> 5.16)
+  mmcs_urm!
   prime
   rake (~> 13.0)
   rubocop (~> 1.21)
-  urm!
 
 BUNDLED WITH
    2.5.9

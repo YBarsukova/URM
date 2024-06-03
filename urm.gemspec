@@ -3,7 +3,7 @@
 require_relative "lib/urm/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "urm"
+  spec.name = "mmcs_urm"
   spec.version = Urm::VERSION
   spec.authors = %w[LSN YBarsukova Teachyyou]
   spec.email = [""]
