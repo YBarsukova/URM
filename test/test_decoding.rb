@@ -166,6 +166,4 @@ class TestDecoding < Minitest::Test
     assert_equal decoded_instructions1[1].label, decoded_instructions2[1].label
   end
 end
-
 # rubocop:enable Metrics/AbcSize
-

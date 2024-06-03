@@ -74,13 +74,11 @@ module Urm
     end
 
     def self.decode_machine(godel_numbers)
-      machine = Machine.new(0) # Создаем машину с 0 входными регистрами
       instructions = godel_numbers.map { |number| decode_single_instruction(number) }
+      machine = Machine.new(0) # Создаем машину с 0 входными регистрами
       instructions.each { |instruction| machine.add(instruction) }
       machine
     end
-
-    private
 
     def self.extract_exponents(godel_number)
       exponents = []
@@ -121,7 +119,5 @@ module Urm
     def self.decode_stop(label)
       Instruction.stop(label)
     end
-
   end
 end
-

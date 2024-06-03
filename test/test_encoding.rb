@@ -9,31 +9,31 @@ require "urm/machine"
 class TestCoder < Minitest::Test
   def test_inc_godel_code
     numbers = [2, 3, 5]
-    expected_code = 2**(2 + 1) * 3**(3 + 1) * 5**(5 + 1)
+    expected_code = (2**(2 + 1)) * (3**(3 + 1)) * (5**(5 + 1))
     assert_equal expected_code, Urm::Coder.godel_code(numbers)
   end
 
   def test_dec_godel_code
     numbers = [3, 2, 2]
-    expected_code = 2**(3 + 1) * 3**(2 + 1) * 5**(2 + 1)
+    expected_code = (2**(3 + 1)) * (3**(2 + 1)) * (5**(2 + 1))
     assert_equal expected_code, Urm::Coder.godel_code(numbers)
   end
 
   def test_set_godel_code
     numbers = [1, 1, 1, 1]
-    expected_code = 2**(1 + 1) * 3**(1 + 1) * 5**(1 + 1) * 7**(1 + 1)
+    expected_code = (2**(1 + 1)) * (3**(1 + 1)) * (5**(1 + 1)) * (7**(1 + 1))
     assert_equal expected_code, Urm::Coder.godel_code(numbers)
   end
 
   def test_if_godel_code
     numbers = [4, 3, 2, 6, 7]
-    expected_code = 2**(4 + 1) * 3**(3 + 1) * 5**(2 + 1) * 7**(6 + 1) * 11**(7 + 1)
+    expected_code = (2**(4 + 1)) * (3**(3 + 1)) * (5**(2 + 1)) * (7**(6 + 1)) * (11**(7 + 1))
     assert_equal expected_code, Urm::Coder.godel_code(numbers)
   end
 
   def test_stop_godel_code
     numbers = [5, 7]
-    expected_code = 2**(5 + 1) * 3**(7 + 1)
+    expected_code = (2**(5 + 1)) * (3**(7 + 1))
     assert_equal expected_code, Urm::Coder.godel_code(numbers)
   end
 
