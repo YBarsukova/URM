@@ -194,7 +194,6 @@ does_it_work = MachineTester.assert_range(division_machine, 1, 100, ->(x, y) { x
 # returns true if run(x, y) == floor(x / y) for all combinations of x and y in the 1..100 range (1 and 100 are included)
 ```
 
-Конечно! Вот пример для раздела "Encoding and Decoding":
 
 ### Encoding and Decoding
 
