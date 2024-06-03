@@ -3,6 +3,17 @@ module Urm
 
     def self.code_machine: -> Array[Integer]
     def self.code_single_instruction: -> Integer
+
+    def self.decode_dec: -> Instruction
+    def self.decode_if: -> Instruction
+    def self.decode_inc: -> Instruction
+    def self.decode_machine: -> Machine
+    def self.decode_set: -> Instruction
+    def self.decode_single_instruction: -> Instruction
+    def self.decode_stop: -> Instruction
+
+    def self.extract_exponents: -> Array[Integer]
+
     def self.godel_code: -> Integer
   end
 end

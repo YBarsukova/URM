@@ -52,19 +52,19 @@ class TestInstructionParse < Minitest::Test
     assert_equal 3, inst.value
   end
 
-  def test_parse_set_instruction_invalid_value
+  def test_parse_set_invalid_value
     assert_raises(Urm::InvalidRegisterInitialization) do
       Urm::Instruction.parse("1. x2 = -1")
     end
   end
 
-  def test_parse_set_instruction_invalid_register
+  def test_parse_set_register
     assert_raises(Urm::InvalidRegisterIndex) do
       Urm::Instruction.parse("1. x0 = 3")
     end
   end
 
-  def test_parse_set_instruction_invalid_label
+  def test_parse_set_label
     assert_raises(Urm::InvalidLabel) do
       Urm::Instruction.parse("0. x2 = 3")
     end
@@ -73,13 +73,13 @@ class TestInstructionParse < Minitest::Test
     end
   end
 
-  def test_parse_inc_instruction_invalid_register
+  def test_parse_inc_register
     assert_raises(Urm::InvalidRegisterIndex) do
       Urm::Instruction.parse("1. x0 = x0 + 1")
     end
   end
 
-  def test_parse_inc_instruction_invalid_label
+  def test_parse_inc_label
     assert_raises(Urm::InvalidLabel) do
       Urm::Instruction.parse("0. x2 = x2 + 1")
     end
@@ -88,25 +88,25 @@ class TestInstructionParse < Minitest::Test
     end
   end
 
-  def test_parse_dec_instruction_invalid_register
+  def test_parse_dec_register
     assert_raises(Urm::InvalidRegisterIndex) do
       Urm::Instruction.parse("1. x0 = x0 - 1")
     end
   end
 
-  def test_parse_dec_instruction_invalid_label
+  def test_parse_dec_label
     assert_raises(Urm::InvalidLabel) do
       Urm::Instruction.parse("0. x3 = x3 - 1")
     end
   end
 
-  def test_parse_if_instruction_invalid_register
+  def test_parse_if_register
     assert_raises(Urm::InvalidRegisterIndex) do
       Urm::Instruction.parse("1. if x0 == 0 goto 3 else goto 4")
     end
   end
 
-  def test_parse_if_instruction_invalid_label
+  def test_parse_if_label
     assert_raises(Urm::InvalidLabel) do
       Urm::Instruction.parse("0. if x2 == 0 goto 3 else goto 4")
     end
@@ -121,7 +121,7 @@ class TestInstructionParse < Minitest::Test
     end
   end
 
-  def test_parse_stop_instruction_invalid_label
+  def test_parse_stop_label
     assert_raises(Urm::InvalidLabel) do
       Urm::Instruction.parse("0. stop")
     end
@@ -130,7 +130,7 @@ class TestInstructionParse < Minitest::Test
     end
   end
 
-  def test_parse_copy_instruction_invalid_register
+  def test_parse_copy_register
     assert_raises(Urm::InvalidRegisterIndex) do
       Urm::Instruction.parse("1. x0 = x3")
     end
@@ -139,7 +139,7 @@ class TestInstructionParse < Minitest::Test
     end
   end
 
-  def test_parse_copy_instruction_invalid_label
+  def test_parse_copy_label
     assert_raises(Urm::InvalidLabel) do
       Urm::Instruction.parse("0. x2 = x3")
     end

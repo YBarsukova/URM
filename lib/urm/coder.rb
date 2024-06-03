@@ -50,5 +50,74 @@ module Urm
 
       godel_number
     end
+
+    def self.decode_single_instruction(godel_number)
+      exponents = extract_exponents(godel_number)
+
+      type = exponents[0]
+      label = exponents[1]
+
+      case type
+      when 1
+        decode_set(label, exponents)
+      when 2
+        decode_inc(label, exponents)
+      when 3
+        decode_dec(label, exponents)
+      when 4
+        decode_if(label, exponents)
+      when 5
+        decode_stop(label)
+      else
+        raise "Unknown instruction type: #{type}"
+      end
+    end
+
+    def self.decode_machine(godel_numbers)
+      instructions = godel_numbers.map { |number| decode_single_instruction(number) }
+      machine = Machine.new(0) # Создаем машину с 0 входными регистрами
+      instructions.each { |instruction| machine.add(instruction) }
+      machine
+    end
+
+    def self.extract_exponents(godel_number)
+      exponents = []
+      prime_enum = Prime.each
+
+      loop do
+        prime = prime_enum.next
+        exponent = 0
+
+        while (godel_number % prime).zero?
+          godel_number /= prime
+          exponent += 1
+        end
+
+        exponents << (exponent - 1)
+        break if godel_number == 1
+      end
+
+      exponents
+    end
+
+    def self.decode_set(label, exponents)
+      Instruction.set(label, exponents[2], exponents[3])
+    end
+
+    def self.decode_inc(label, exponents)
+      Instruction.inc(label, exponents[2])
+    end
+
+    def self.decode_dec(label, exponents)
+      Instruction.dec(label, exponents[2])
+    end
+
+    def self.decode_if(label, exponents)
+      Instruction.if(label, exponents[2], exponents[3], exponents[4])
+    end
+
+    def self.decode_stop(label)
+      Instruction.stop(label)
+    end
   end
 end
