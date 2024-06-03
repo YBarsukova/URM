@@ -5,6 +5,16 @@ require "urm/instruction"
 require "prime"
 
 module Urm
+
+  # The Coder class provides methods for encoding and decoding URM instructions
+  # and entire machines using Godel numbering. This class is useful for converting instructions and machines
+  # into unique numerical representations and back. The primary methods available in this class are:
+  #
+  # - `self.code_single_instruction`: Encodes a single URM instruction into a Godel number.
+  # - `self.code_machine`: Encodes an entire URM machine (a sequence of instructions) into an array of Godel numbers.
+  # - `self.godel_code`: Encodes an array of integers into a single Godel number.
+  #
+  # TODO add about decoding
   class Coder
     def self.code_single_instruction(instruction)
       code = case instruction.type

@@ -73,7 +73,7 @@ class TestCoder < Minitest::Test
     machine.add(Urm::Instruction.inc(2, 1))
     machine.add(Urm::Instruction.dec(3, 1))
     machine.add(Urm::Instruction.if(4, 1, 2, 5))
-    machine.add(Urm::Instruction.stop(5))
+    # Stop instruction will be added automatically when skipped
 
     expected_codes = [
       Urm::Coder.godel_code([1, 1, 1, 42]),
