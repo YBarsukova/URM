@@ -17,8 +17,8 @@ Gem::Specification.new do |spec|
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/YBarsukova/urm_dev"
-  spec.metadata["changelog_uri"] = "https://github.com/YBarsukova/urm_dev"
+  spec.metadata["source_code_uri"] = "https://github.com/YBarsukova/urm"
+  spec.metadata["changelog_uri"] = "https://github.com/YBarsukova/urm"
   spec.metadata["rubygems_mfa_required"] = "true"
 
   # Specify which files should be added to the gem when it is released.
