@@ -59,6 +59,14 @@ module Urm
       puts result
     end
 
+    # Validates the instructions to ensure there are no references to non-existent labels
+    # and there is exactly one stop instruction.
+    def validate_instructions
+      labels = collect_labels
+      validate_labels(labels)
+      validate_stop_instructions
+    end
+
     private
 
     # Initialize the registers with input values
@@ -135,14 +143,6 @@ module Urm
 
     def execute_copy(instruction)
       @registers[instruction.register] = @registers[instruction.value]
-    end
-
-    # Validates the instructions to ensure there are no references to non-existent labels
-    # and there is exactly one stop instruction.
-    def validate_instructions
-      labels = collect_labels
-      validate_labels(labels)
-      validate_stop_instructions
     end
 
     # Collects all labels referenced by if instructions

@@ -1,0 +1,8 @@
+module Urm
+  class Coder
+
+    def self.code_machine: -> Array[Integer]
+    def self.code_single_instruction: -> Integer
+    def self.godel_code: -> Integer
+  end
+end
