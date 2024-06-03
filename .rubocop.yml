@@ -8,9 +8,6 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
 
-Metrics/LineLength:
-  Max: 120
-
 Metrics/MethodLength:
   Max: 40
 
@@ -25,6 +22,9 @@ Lint/ScriptPermission:
 
 Layout/EndOfLine:
   Enabled: false
+
+Layout/LineLength:
+  Max: 120
 
 Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
