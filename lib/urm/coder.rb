@@ -10,10 +10,18 @@ module Urm
   # into unique numerical representations and back. The primary methods available in this class are:
   #
   # - `self.code_single_instruction`: Encodes a single URM instruction into a Godel number.
-  # - `self.code_machine`: Encodes an entire URM machine (a sequence of instructions) into an array of Godel numbers.
+  # - `self.code_machine`: Encodes an entire URM machine into an array of Godel numbers.
   # - `self.godel_code`: Encodes an array of integers into a single Godel number.
+  # - `self.decode_single_instruction`: Decodes a Godel number back into a single URM instruction.
+  # - `self.decode_machine`: Decodes an array of Godel numbers back into a URM machine.
+  # - `self.extract_exponents`: Extracts the exponents from a Godel number.
   #
-  # TODO add about decoding
+  # The class supports the following instruction types:
+  # - :set  => [1, label, register, value]
+  # - :inc  => [2, label, register]
+  # - :dec  => [3, label, register]
+  # - :if   => [4, label, register, label_true, label_false]
+  # - :stop => [5, label]
   class Coder
     def self.code_single_instruction(instruction)
       code = case instruction.type
