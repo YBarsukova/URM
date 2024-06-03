@@ -5,7 +5,6 @@ require "urm/instruction"
 require "prime"
 
 module Urm
-
   # The Coder class provides methods for encoding and decoding URM instructions
   # and entire machines using Godel numbering. This class is useful for converting instructions and machines
   # into unique numerical representations and back. The primary methods available in this class are:
